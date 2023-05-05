@@ -14,8 +14,8 @@ public class DepartmentServiceImpl {
         this.employeeServiceImpl = employeeServiceImpl;
     }
 
-    private final Map<String, Employee> employeeDataDep = new HashMap<>();
-
+//    private final Map<String, Employee> employeeDataDep = new HashMap<>();
+//
     public Optional<Employee> employeeMaxSalary(int department) {
         return employeeServiceImpl.employeeData.values().stream()
                 .filter(employeeData -> employeeData.getDepartment() == department)

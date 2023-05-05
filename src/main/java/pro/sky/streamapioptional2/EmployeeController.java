@@ -1,5 +1,8 @@
 package pro.sky.streamapioptional2;
 
+//import org.springframework.util.StringUtils;
+
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -27,8 +30,13 @@ public class EmployeeController {
                               @RequestParam(value = "salary", required = false) int salary) {
         if (surname == null || name == null || patronymic == null || department < 1 || salary < 1)
             throw new RuntimeException("Данные введены не полностью");
-        else
-            return "Добавлен сотрудник: " + employeeServiceImpl.addEmployee(surname, name, patronymic, department, salary);
+        else if (!StringUtils.isAlpha(surname) || !StringUtils.isAlpha(name) || !StringUtils.isAlpha(patronymic)) {
+            throw new RuntimeException("400 Bad Request");
+        } else
+            surname = StringUtils.capitalize(surname);
+            name = StringUtils.capitalize(name);
+            patronymic = StringUtils.capitalize(patronymic);
+        return "Добавлен сотрудник: " + employeeServiceImpl.addEmployee(surname, name, patronymic, department, salary);
     }
 
     @GetMapping(path = "/remove")
@@ -37,8 +45,8 @@ public class EmployeeController {
                                  @RequestParam(value = "patronymic", required = false) String patronymic) {
         if (surname == null || name == null || patronymic == null)
             throw new RuntimeException("Данные введены не полностью");
-        else
-            return "Удален сотрудник - " + employeeServiceImpl.removeEmployee(surname, name, patronymic);
+
+        return "Удален сотрудник - " + employeeServiceImpl.removeEmployee(surname, name, patronymic);
 
     }
 
